@@ -1,0 +1,26 @@
+import mysql.connector 
+from mysql.connector import Error
+
+# initialize global total_cost to add cost for multiple orders
+total_cost=0
+
+# function to create connection to sql
+def create_con(hostname, username, userpw, dbname):
+    connection = None
+    try:
+        connection = mysql.connector.connect(
+                host = hostname,
+                user = username,
+                password = userpw,
+                database = dbname
+        )
+        print("Connection Successful")
+    except Error as e:
+        print(f'The error {e} occured')
+    return connection
+
+# create connection to sql with username and password 
+conn = create_con('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com','admin','3368Spring2024', 'cis3368springdb')
+
+# create cursor to look though db
+cursor = conn.cursor(dictionary = True)
