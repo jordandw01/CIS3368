@@ -19,12 +19,6 @@ def create_con(hostname, username, userpw, dbname):
         print(f'The error {e} occured')
     return connection
 
-# create connection to sql with username and password 
-conn = create_con('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com','admin','3368Spring2024', 'cis3368springdb')
-
-# create cursor to look though db
-cursor = conn.cursor(dictionary = True)
-
 # function to print the menu and get user request for info or order
 def print_menu(drinks):
     print("MENU")
@@ -48,3 +42,44 @@ def order(item, quant, drinks):
     print(f"Total cost = ${total_cost}")
     return total_cost
 
+# function to give user information and take input on what item they want information on
+def describe(drinks):
+    item = int(input("What item would you like information about? "))
+    for drink in drinks:
+        if drink['id'] == item:
+            print(f"{drink['drinkname']}, a {drink['description']} that is the color {drink['color']}")
+            break
+    else:
+        print("Drink not found in the menu.")
+
+# create connection to sql with username and password 
+conn = create_con('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com','admin','3368Spring2024', 'cis3368springdb')
+
+# create cursor to look though db
+cursor = conn.cursor(dictionary = True)
+
+# fetch all values from drinks table
+sql = 'SELECT * FROM drinks'
+cursor.execute(sql)
+rows = cursor.fetchall()
+
+# Catch if user wants to keep ordering, want information, or want to complete their order
+while True:
+    choice = print_menu(rows)
+    if choice == 'O':
+        item_id = int(input("Enter the item id: "))
+        quant = int(input("Enter the quantity: "))
+        order(item_id, quant, rows)
+        rep = input("'Y' to keep ordering, 'N' to complete: ").upper()
+        while rep not in ('Y', 'N'):
+            rep = input("Invalid input. Enter 'Y' to continue ordering, or 'N' to stop: ").upper()
+        if rep == 'N':
+            break
+    elif choice == 'I':
+        describe(rows)
+    else:
+        print("Invalid input. Enter 'O' to order, or 'I' to get more information")
+
+#close cursor and connection
+cursor.close()
+conn.close()
