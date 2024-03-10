@@ -30,7 +30,6 @@ masterPassword = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542
 masterUsername = 'username'
 validTokens = {"100", "200", "300", "400"}
 
-
 # Basic http authentication, prompts username and password:
 @app.route('/login', methods=['GET'])
 def auth_example():
@@ -66,7 +65,7 @@ def get_child_classroom(child_id):
     else:
         return None  # Return None if child not found
 
-# Read facilities
+# Read facilities table
 @app.route('/facility', methods=['GET'])
 def get_facilities():
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -78,7 +77,7 @@ def get_facilities():
     conn.close()
     return jsonify(facilities)
 
-# Create facility
+# Create a new facility
 @app.route('/facility', methods=['POST'])
 def add_facility():
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -91,7 +90,7 @@ def add_facility():
     conn.close()
     return jsonify({'message': 'Facility added successfully'}), 201
 
-# Update facility
+# Update facility name using id
 @app.route('/facility/<int:id>', methods=['PUT'])
 def update_facility(id):
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -104,7 +103,7 @@ def update_facility(id):
     conn.close()
     return jsonify({'message': 'Facility updated successfully'}), 200
 
-# Delete from facility
+# Delete from facility using id
 @app.route('/facility/<int:id>', methods=['DELETE'])
 def delete_facility(id):
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -116,7 +115,7 @@ def delete_facility(id):
     conn.close()
     return jsonify({'message': 'Facility deleted successfully'}), 200
 
-# Read classrooms
+# Read classrooms table
 @app.route('/classroom', methods=['GET'])
 def get_classrooms():
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -128,7 +127,7 @@ def get_classrooms():
     conn.close()
     return jsonify(classrooms)
 
-# Create a new classroom
+# Create a new classroom with name capacity and facility
 @app.route('/classroom', methods=['POST'])
 def add_classroom():
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -141,7 +140,7 @@ def add_classroom():
     conn.close()
     return jsonify({'message': 'Classroom added successfully'}), 201
 
-# Update a classroom's name
+# Update a classroom's name with id
 @app.route('/classroom/<int:id>', methods=['PUT'])
 def update_classroom(id):
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -154,7 +153,7 @@ def update_classroom(id):
     conn.close()
     return jsonify({'message': 'Classroom updated successfully'}), 200
 
-# Delete a classroom
+# Delete a classroom using id
 @app.route('/classroom/<int:id>', methods=['DELETE'])
 def delete_classroom(id):
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -166,7 +165,7 @@ def delete_classroom(id):
     conn.close()
     return jsonify({'message': 'Classroom deleted successfully'}), 200
 
-# Read teachers
+# Read teachers table
 @app.route('/teacher', methods=['GET'])
 def get_teacher():
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -178,7 +177,7 @@ def get_teacher():
     conn.close()
     return jsonify(teachers)
 
-# Create a new teacher
+# Create a new teacher with firstname and lastname, no room added yet
 @app.route('/teacher', methods=['POST'])
 def add_teacher():
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -191,7 +190,7 @@ def add_teacher():
     conn.close()
     return jsonify({'message': 'Teacher added successfully'}), 201
 
-# Update a teacher's room
+# Update a teacher's room using id
 @app.route('/teacher/<int:id>', methods=['PUT'])
 def update_teacher(id):
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -204,7 +203,7 @@ def update_teacher(id):
     conn.close()
     return jsonify({'message': 'Teacher updated successfully'}), 200
 
-# Delete a teacher
+# Delete a teacher using id
 @app.route('/teacher/<int:id>', methods=['DELETE'])
 def delete_teacher(id):
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -216,7 +215,7 @@ def delete_teacher(id):
     conn.close()
     return jsonify({'message': 'Teacher deleted successfully'}), 200
 
-# Read children
+# Read children table
 @app.route('/child', methods=['GET'])
 def get_child():
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -228,7 +227,7 @@ def get_child():
     conn.close()
     return jsonify(children)
 
-# Create a new child
+# Create a new child and check count of the room
 @app.route('/child', methods=['POST'])
 def add_child():
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -247,8 +246,7 @@ def add_child():
     else:
         return jsonify({'error': 'Classroom is full. Cannot add more children.'}), 400
 
-
-# Update a child's room
+# Update a child's room and check the amount of children in updated room
 @app.route('/child/<int:id>', methods=['PUT'])
 def update_child(id):
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -271,7 +269,7 @@ def update_child(id):
         else:
             return jsonify({'error': 'Cannot move child. Destination classroom is full.'}), 400
         
-# Delete a child
+# Delete a child using id
 @app.route('/child/<int:id>', methods=['DELETE'])
 def delete_child(id):
     conn = create_connection('cis3368spring.cdgoaucqi4wk.us-east-1.rds.amazonaws.com', 'admin', '3368Spring2024', 'cis3368springdb')
@@ -283,4 +281,5 @@ def delete_child(id):
     conn.close()
     return jsonify({'message': 'Child deleted successfully'}), 200
 
-app.run()
+if __name__ == '__main__':
+    app.run()
