@@ -32,7 +32,7 @@ validTokens = {"100", "200", "300", "400"}
 
 # Basic http authentication, prompts username and password:
 @app.route('/login', methods=['GET'])
-def auth_example():
+def auth():
     if request.authorization:
         encoded = request.authorization.password.encode() #unicode encoding
         hashedResult = hashlib.sha256(encoded) #hashing
